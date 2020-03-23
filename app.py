@@ -1,69 +1,175 @@
-from flask import Flask
-from flask_restful import Resource,Api
+from flask import Flask, jsonify, request
+from flask_restful import Resource,Api, request
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 api = Api(app)
 
-NIDS = {
-    "111" : "Pulak",
-    "222" : "XYZ",
-    "333" : "ABC"
-}
+app.config['MONGO_DBNAME'] = 'restdb'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/restdb'
 
-def abort_if_nid_doesnt_exist(nidNo):
-    if nidNo not in NIDS:
-        return {"message" : "NID NO {} doesn't exist.".format(nidNo) },200
+app.url_map.strict_slashes = False
 
+mongo = PyMongo(app)
+
+# nidNo: [string]
+# date of birth: [string],
+# name english : [string],
+# name bengali: [string],
+# fathers name bengali: [string],
+# mothers name bengali: [string],
+# spouse name bengali: [string],
+# present address: [string],
+# permanent address: [string],
+# nid front: [string(base 64 string)],
+# nid back: [string(base 64 string)],
+# picture: [string(base 64 string)]
+
+def getValue(user):
+    return {
+        "nidNo" : user["nidNo"],
+        "date of birth" : user["date of birth"],
+        "name english" : user ["name english"],
+        "name bengali" : user["name bengali"],
+        "fathers name bengali" : user["fathers name bengali"],
+        "mothers name bengali" : user["mothers name bengali"],
+        "spouse name bengali" : user["spouse name bengali"],
+        "present address" : user["present address"],
+        "permanent address" : user["permanent address"],
+        "nid front" : user["nid front"],
+        "nid back" : user["nid back"],
+        "picture" : user["picture"]
+    }
+
+def setValue():
+    user = mongo.db.NIDS
+    nidNo =  request.json["nidNo"]
+    dateOfBirth = request.json["date of birth"]
+    nameEnglish = request.json["name english"]
+    nameBengali = request.json["name bengali"]
+    fathersNameBengali = request.json["fathers name bengali"]
+    mothersNameBengali = request.json["mothers name bengali"]
+    spouseNameBengali = request.json["spouse name bengali"]
+    presentAddress = request.json["present address"]
+    permanentAddress = request.json["permanent address"]
+    nidFront = request.json["nid front"]
+    nidBack = request.json["nid back"]
+    picture = request.json["picture"]
+
+    newId = user.insert({
+        "nidNo" : nidNo,
+        "date of birth" : dateOfBirth,
+        "name english" : nameEnglish,
+        "name bengali" : nameBengali,
+        "fathers name bengali" : fathersNameBengali,
+        "mothers name bengali" : mothersNameBengali,
+        "spouse name bengali" : spouseNameBengali,
+        "present address" : presentAddress,
+        "permanent address" : permanentAddress,
+        "nid front" : nidBack,
+        "nid back" : nidBack,
+        "picture" : picture
+    })
+    newUser = user.find_one({"_id": newId})
+    output = getValue(newUser)
+    return output
+
+def updateValue(user):
+    
+    if request.json["nidNo"]:
+        user["nidNo"] = val
+    
+    val = request.json["date of birth"]
+    if val:
+        user["date of birth"] = val
+    
+    val = request.json["name english"]
+    if val:
+        user["name english"] = val
+    
+    val = request.json["name bengali"]
+    if val:
+        user["name bengali"] = val
+    
+    val = request.json["fathers name bengali"]
+    if val:
+        user["fathers name bengali"] = val
+    
+    val = request.json["mothers name bengali"]
+    if val:
+        user["mothers name bengali"] = val
+    
+    val = request.json["spouse name bengali"]
+    if val:
+        user["spouse name bengali"] = val
+    
+    val = request.json["present address"]
+    if val:
+        user["present address"] = val
+    
+    val = request.json["permanent address"]
+    if val:
+        user["permanent address"] = val
+    
+    val = request.json["nid front"]
+    if val:
+        user["nid front"] = val
+    
+    val = request.json["nid back"]
+    if val:
+        user["nid front"] = val
+    
+    val = request.json["picture"]
+    if val:
+        user["picture"] = val
+    
+    val = getValue(user)
+    return val
 
 class TaskByNid(Resource):
-    def get(self,nido):
-        abort_if_nid_doesnt_exist(nidNo)
-        name = NIDS["nidNo"]
-        return { "message" : "NID NO: {} Name: {}".format(nidNo,name) },200
+    def get(self,nidNo):
+        nid = mongo.db.NIDS
+        user = nid.find_one({'nidNo' : nidNo})
+        if user:
+            output = getValue(user)
+        else:
+            output = "Nid doesn't exist"
+
+        return jsonify({'result' : output })
 
     def post(self,nidNo):
-        return { "message" : "Inside post method" },200
+        nid = mongo.db.NIDS
+        user = nid.find_one({'nidNo' : nidNo})
+        if not user:
+            output = setValue()
+        else:
+            output = "Nid already exists"
+
+        return jsonify({'result' : output })
 
     def put(self,nidNo):
-        abort_if_nid_doesnt_exist(nid_no)
-        return { "message" : "Inside put method" },200
+        nid = mongo.db.NIDS
+        user = nid.find_one({'nidNo' : nidNo})
+        if user:
+            output = updateValue(user)
+        else:
+            output = "Nid doesn't exist"
+
+        return jsonify({'result' : output })
 
     def delete(self,nidNo):
-        abort_if_nid_doesnt_exist(nid_no)
-        return { "message" : "Inside delete method" },200
+        nid = mongo.db.NIDS
+        user = nid.find_one({"nidNo" : nidNo})
+        if user:
+            nid.remove({"nidNo" : nidNo})
+            output = "Successfully deleted"
+        else:
+            output = "Nid doesn't exist"
+        
+        return jsonify({'result' : output })
 
-
-class Task(Resource):
-    
-    def get(self):
-        return { "message" : "Inside get method" },200
-
-    def post(self):
-        return { "message" : "Inside post method" },200
-
-    def put(self):
-        return { "message" : "Inside put method" },200
-
-    def delete(self):
-        return { "message" : "Inside delete method" },200
-
-
-class TaskById(Resource):
-    def get(self,taskId):
-        return { "message" : "Inside get method of task id = {}".format(taskId) },200
-
-    def post(self,taskId):
-        return { "message" : "Inside post method of task id = {}".format(taskId) },200
-
-    def put(self,taskId):
-        return { "message" : "Inside put method of task id = {}".format(taskId) },200
-
-    def delete(self,taskId):
-        return { "message" : "Inside delete method of task id = {}".format(taskId) },200
-
-api.add_resource(Task,"/task")
-api.add_resource(TaskById,"/task/<string:taskId>")
 api.add_resource(TaskByNid,"/task/nid/<string:nidNo>")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
