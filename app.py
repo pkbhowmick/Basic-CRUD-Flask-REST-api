@@ -66,7 +66,7 @@ def setValue():
         "spouse name bengali" : spouseNameBengali,
         "present address" : presentAddress,
         "permanent address" : permanentAddress,
-        "nid front" : nidBack,
+        "nid front" : nidFront,
         "nid back" : nidBack,
         "picture" : picture
     })
@@ -75,53 +75,9 @@ def setValue():
     return output
 
 def updateValue(user):
-    
-    if request.json["nidNo"]:
-        user["nidNo"] = val
-    
-    val = request.json["date of birth"]
-    if val:
-        user["date of birth"] = val
-    
-    val = request.json["name english"]
-    if val:
-        user["name english"] = val
-    
-    val = request.json["name bengali"]
-    if val:
-        user["name bengali"] = val
-    
-    val = request.json["fathers name bengali"]
-    if val:
-        user["fathers name bengali"] = val
-    
-    val = request.json["mothers name bengali"]
-    if val:
-        user["mothers name bengali"] = val
-    
-    val = request.json["spouse name bengali"]
-    if val:
-        user["spouse name bengali"] = val
-    
-    val = request.json["present address"]
-    if val:
-        user["present address"] = val
-    
-    val = request.json["permanent address"]
-    if val:
-        user["permanent address"] = val
-    
-    val = request.json["nid front"]
-    if val:
-        user["nid front"] = val
-    
-    val = request.json["nid back"]
-    if val:
-        user["nid front"] = val
-    
-    val = request.json["picture"]
-    if val:
-        user["picture"] = val
+
+    for key in request.json.keys():
+        user[key]=request.json[key]
     
     val = getValue(user)
     return val
