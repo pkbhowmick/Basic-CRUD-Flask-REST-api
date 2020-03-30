@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, request
-from flask_restful import Resource,Api, request
+from flask_restplus import Resource, Api, fields
 from flask_pymongo import PyMongo
+from flasgger import Swagger
+import random
+from flasgger.utils import swag_from
+
 
 app = Flask(__name__)
-api = Api(app)
 
 app.config['MONGO_DBNAME'] = 'restdb'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/restdb'
@@ -11,6 +14,25 @@ app.config['MONGO_URI'] = 'mongodb://localhost:27017/restdb'
 app.url_map.strict_slashes = False
 
 mongo = PyMongo(app)
+
+api = Api()
+api.init_app(app)
+
+model = api.model('demo',{
+    "nidNo" : fields.String('Enter Nid No'),
+    "date of birth" : fields.String('Enter Date of Birth'),
+    "name english" : fields.String('Enter Name in English'),
+    "name bengali" : fields.String('Enter name in Bengali'),
+    "fathers name bengali" : fields.String("Enter Father's name in Bengali"),
+    "mothers name bengali" : fields.String("Enter Mother's name in Bengali"),
+    "spouse name bengali" : fields.String("Enter Spouse's name in Bengali"),
+    "present address" : fields.String("Enter Present Address"),
+    "permanent address" : fields.String("Enter Parmanent Address"),
+    "nid front" : fields.String("Capture Nid Front picture"),
+    "nid back" : fields.String("Capture Nid Back Pictures"),
+    "picture" : fields.String("Enter your picture")
+})
+
 
 # nidNo: [string]
 # date of birth: [string],
@@ -24,6 +46,7 @@ mongo = PyMongo(app)
 # nid front: [string(base 64 string)],
 # nid back: [string(base 64 string)],
 # picture: [string(base 64 string)]
+
 
 def getValue(user):
     return {
@@ -74,14 +97,9 @@ def setValue():
     output = getValue(newUser)
     return output
 
-def updateValue(user):
 
-    for key in request.json.keys():
-        user[key]=request.json[key]
-    
-    val = getValue(user)
-    return val
 
+@api.route('/nid/<string:nidNo>')
 class TaskByNid(Resource):
     def get(self,nidNo):
         nid = mongo.db.NIDS
@@ -93,7 +111,9 @@ class TaskByNid(Resource):
 
         return jsonify({'result' : output })
 
+    @api.expect(model)
     def post(self,nidNo):
+        
         nid = mongo.db.NIDS
         user = nid.find_one({'nidNo' : nidNo})
         if not user:
@@ -103,11 +123,20 @@ class TaskByNid(Resource):
 
         return jsonify({'result' : output })
 
+    @api.expect(model)
     def put(self,nidNo):
+        
         nid = mongo.db.NIDS
         user = nid.find_one({'nidNo' : nidNo})
         if user:
-            output = updateValue(user)
+            for key in request.json.keys():
+                newKey = request.json[key]
+                nid.find_one_and_update(
+                {"nidNo" : nidNo},
+                {"$set":
+                {key: newKey}
+                },upsert=True)
+            output = "Successfully Updated"
         else:
             output = "Nid doesn't exist"
 
@@ -123,8 +152,6 @@ class TaskByNid(Resource):
             output = "Nid doesn't exist"
         
         return jsonify({'result' : output })
-
-api.add_resource(TaskByNid,"/task/nid/<string:nidNo>")
 
 
 if __name__ == '__main__':
