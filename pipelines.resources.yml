@@ -2,7 +2,7 @@ resources:
     - name: app
     type: GitRepo
     configuration: 
-        gitProvider: GitHub
+        gitProvider: myGitHub
         path: pulak-kanti/Basic-CRUD-Flask-REST-api
         branches: 
             include: master
