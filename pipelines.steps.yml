@@ -1,0 +1,16 @@
+pipelines:
+    - name: pipeline_hello_world
+      configuration:
+        environmentVariables:
+          readOnly:
+            MY_MESSAGE: '"Hello World!"'
+      steps:
+        - name: step_1
+          type: Bash
+          configuration:
+            inputResources:
+              - name: app
+          execution:
+            onExecute:
+              - echo $MY_MESSAGE
+              
