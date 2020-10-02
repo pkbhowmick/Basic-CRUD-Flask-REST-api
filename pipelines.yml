@@ -1,11 +1,11 @@
 resources: 
   - name: app
-  type: GitRepo
-  configuration: 
-      gitProvider: myGitHub
-      path: pulak-kanti/Basic-CRUD-Flask-REST-api
-      branches: 
-          include: master
+    type: GitRepo
+    configuration: 
+        gitProvider: myGitHub
+        path: pulak-kanti/Basic-CRUD-Flask-REST-api
+        branches: 
+            include: master
 
 pipelines:
     - name: pipeline_hello_world
