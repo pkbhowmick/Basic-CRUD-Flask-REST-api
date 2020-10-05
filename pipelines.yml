@@ -29,6 +29,7 @@ pipelines:
               - name: app
           execution:
             onExecute:
+              - pip install -r requirements.txt
               - python -m pytest
               - echo "Step_2 Done"
               
