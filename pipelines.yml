@@ -32,7 +32,7 @@ pipelines:
               - sudo apt install python3.6
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
               - cd Basic-CRUD-Flask-REST-api
-              - pip3 install -r requirements.txt
+              - pip install -r requirements.txt
               - python -m pytest
               - echo "Step_2 Done"
               
