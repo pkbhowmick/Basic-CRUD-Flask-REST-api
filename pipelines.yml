@@ -28,6 +28,7 @@ pipelines:
             inputResources:
               - name: app
           execution:
+            pip install requirements.txt
             onExecute:
               - echo "Step_2 Done"
               
