@@ -34,4 +34,12 @@ pipelines:
               - pip install -r requirements.txt
               - python -m pytest
               - echo "Step_2 Done"
+        - name: step_3
+            type: Bash
+            configuration:
+              inputSteps:
+                - name: step_2
+            execution:
+              onExecute:
+                - echo "Step_3 Done"
               
