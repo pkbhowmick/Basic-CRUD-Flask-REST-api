@@ -29,6 +29,6 @@ pipelines:
               - name: app
           execution:
             onExecute:
-              - pip install -r requirements.txt
+              - pip install flask
               - echo "Step_2 Done"
               
