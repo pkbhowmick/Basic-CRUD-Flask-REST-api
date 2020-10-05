@@ -29,6 +29,6 @@ pipelines:
               - name: app
           execution:
             onExecute:
-              - pip install flask
+              - python -m pytest
               - echo "Step_2 Done"
               

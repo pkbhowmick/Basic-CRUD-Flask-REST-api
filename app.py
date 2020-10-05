@@ -48,6 +48,10 @@ model = api.model('demo',{
 # picture: [string(base 64 string)]
 
 
+@app.route('/api/hello')
+def hello():
+    return jsonify({"response":"Hello"})
+
 def getValue(user):
     return {
         "nidNo" : user["nidNo"],
