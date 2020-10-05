@@ -26,8 +26,7 @@ pipelines:
           type: Bash
           configuration:
             inputResources:
-              inputSteps:
-                - name: step_1 
+              - name: app
           execution:
             onExecute:
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
