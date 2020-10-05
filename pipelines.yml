@@ -6,6 +6,10 @@ resources:
         path: pulak-kanti/Basic-CRUD-Flask-REST-api
         branches: 
             include: master
+        buildOn:
+          commit: true
+          pullRequestCreate: true
+
 
 pipelines:
     - name: pipeline_hello_world
