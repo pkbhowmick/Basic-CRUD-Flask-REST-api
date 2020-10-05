@@ -46,5 +46,5 @@ pipelines:
           execution:
             onExecute:
               - echo "Step_3 Done"
-              - echo ${BASE_BRANCH}
+              - echo $res_app_branchName
               
