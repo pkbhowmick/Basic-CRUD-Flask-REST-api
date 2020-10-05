@@ -22,7 +22,7 @@ pipelines:
           execution:
             onExecute:
               - echo $MY_MESSAGE
-        - name: step-2
+        - name: step_2
           type: Bash
           configuration:
             inputResources:
