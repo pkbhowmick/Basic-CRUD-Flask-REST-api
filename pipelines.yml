@@ -30,6 +30,7 @@ pipelines:
           execution:
             onExecute:
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
+              - cd Basic-CRUD-Flask-REST-api
               - pip install -r requirements.txt
               - python -m pytest
               - echo "Step_2 Done"
