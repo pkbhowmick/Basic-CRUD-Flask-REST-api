@@ -46,4 +46,5 @@ pipelines:
           execution:
             onExecute:
               - echo "Step_3 Done"
+              - echo $Test.head_ref
               
