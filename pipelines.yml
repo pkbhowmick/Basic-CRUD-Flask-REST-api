@@ -22,4 +22,12 @@ pipelines:
           execution:
             onExecute:
               - echo $MY_MESSAGE
+        - name: step-2
+          type: Bash
+          configuration:
+            inputResources:
+              - name: app
+          execution:
+            onExecute:
+              - echo "Step_2 Done"
               
