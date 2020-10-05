@@ -29,7 +29,7 @@ pipelines:
               - name: app
           execution:
             onExecute:
-              - sudo apt-get python3.6
+              - sudo apt install python3.6
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
               - cd Basic-CRUD-Flask-REST-api
               - pip install -r requirements.txt
