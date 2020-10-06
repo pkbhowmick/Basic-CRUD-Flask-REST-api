@@ -33,6 +33,8 @@ pipelines:
               - name: step_1
           execution:
             onExecute:
+              - ls
+              - ll
               - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/runs
               - ls
               - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/workspace
