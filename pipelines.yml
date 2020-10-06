@@ -33,7 +33,7 @@ pipelines:
               - name: step_1
           execution:
             onExecute:
-              - echo $res_app_path
+              - echo "This is the pat $res_app_path"
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
               - cd Basic-CRUD-Flask-REST-api
               - printenv
