@@ -27,12 +27,12 @@ pipelines:
             onStart:
               - update_commit_status app --status processing               
             onExecute:
-              - update_commit_status myGitRepo --status processing              
+              - update_commit_status app --status processing              
               - echo "Hello World!"
             onFailure:
-              - update_commit_status myGitRepo --status failure               
+              - update_commit_status app --status failure               
             onSuccess:
-              - update_commit_status myGitRepo  --status success            
+              - update_commit_status app --status success            
         - name: step_2
           type: Bash
           configuration:
