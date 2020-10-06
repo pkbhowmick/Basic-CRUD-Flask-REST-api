@@ -24,9 +24,15 @@ pipelines:
             inputResources:
               - name: app
           execution:
+            onStart:
+              - update_commit_status app --status processing               
             onExecute:
-              - echo $MY_MESSAGE
-              - ls
+              - update_commit_status myGitRepo --status processing              
+              - echo "Hello World!"
+            onFailure:
+              - update_commit_status myGitRepo --status failure               
+            onSuccess:
+              - update_commit_status myGitRepo  --status success            
         - name: step_2
           type: Bash
           configuration:
