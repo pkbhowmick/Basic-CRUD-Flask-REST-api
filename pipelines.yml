@@ -35,7 +35,7 @@ pipelines:
             onExecute:
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
               - cd Basic-CRUD-Flask-REST-api
-              - echo "$res_app_branchName"
+              - printenv
               - git checkout jfrog-integration
               - pip install -r requirements.txt
               - python -m pytest
