@@ -33,7 +33,9 @@ pipelines:
               - name: step_1
           execution:
             onExecute:
-              - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world
+              - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/runs
+              - ls
+              - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/workspace
               - ls
               - printenv
               - pip install -r requirements.txt
