@@ -33,13 +33,11 @@ pipelines:
               - name: step_1
           execution:
             onExecute:
-              - ls
-              - ll
-              - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/runs
-              - ls
-              - cd /var/opt/jfrog/pipelines/data/pipeline_hello_world/workspace
-              - ls
+              - echo $res_app_path
+              - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
+              - cd Basic-CRUD-Flask-REST-api
               - printenv
+              - git checkout jfrog-integration
               - pip install -r requirements.txt
               - python -m pytest
               - echo "Step_2 Done"
