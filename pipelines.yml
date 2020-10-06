@@ -26,6 +26,7 @@ pipelines:
           execution:
             onExecute:
               - echo $MY_MESSAGE
+              - ls
         - name: step_2
           type: Bash
           configuration:
