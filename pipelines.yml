@@ -29,9 +29,8 @@ pipelines:
             onExecute:
               - update_commit_status app --status processing              
               - echo "Hello World!"
-              - ls
               - printenv
-              - pip install -r requirements.txt
+              - echo "$res_app_branchName"
             onFailure:
               - update_commit_status app --status failure               
             onSuccess:
