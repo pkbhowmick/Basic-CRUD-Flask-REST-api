@@ -32,8 +32,8 @@ pipelines:
               - printenv
               - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
               - cd Basic-CRUD-Flask-REST-api
-              - echo "$res_app_branchName"
-              - git checkout $res_app_branchName
+              - echo "$res_app_shaData.headCommitRef"
+              - git checkout $res_app_shaData.headCommitRef
               - pip install -r requirements.txt
               - python -m pytest
             onFailure:
