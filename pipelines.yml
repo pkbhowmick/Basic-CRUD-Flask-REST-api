@@ -30,7 +30,11 @@ pipelines:
               - update_commit_status app --status processing              
               - echo "Hello World!"
               - printenv
+              - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
+              - cd res_app_branchName
+              - pip install -r requirements.txt
               - echo "$res_app_branchName"
+              - python -m pytest
             onFailure:
               - update_commit_status app --status failure               
             onSuccess:
@@ -42,13 +46,6 @@ pipelines:
               - name: step_1
           execution:
             onExecute:
-              - echo "This is the pat $res_app_path"
-              - git clone https://github.com/pulak-kanti/Basic-CRUD-Flask-REST-api.git
-              - cd Basic-CRUD-Flask-REST-api
-              - printenv
-              - git checkout jfrog-integration
-              - pip install -r requirements.txt
-              - python -m pytest
               - echo "Step_2 Done"
         - name: step_3
           type: Bash
